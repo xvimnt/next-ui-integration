@@ -25,7 +25,7 @@ export async function saveAccessToken(accessToken) {
     try {
         const response = await axios({
             url: '/auth/fbToken',
-            baseURL: process.env.SERVER_URL,
+            baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
             method: "post",
             data: { accessToken },
             headers: {
