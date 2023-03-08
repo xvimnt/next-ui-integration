@@ -12,7 +12,7 @@ function Home() {
     }, [])
 
     useEffect(() => {
-        if (accessToken === '') {
+        if (accessToken === '' && session?.accessToken) {
             setAccessToken(session.accessToken)
             saveAccessToken(accessToken)
         }

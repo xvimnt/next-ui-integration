@@ -3,6 +3,7 @@ import FacebookProvider from 'next-auth/providers/facebook'
 import GoogleProvider from 'next-auth/providers/google'
 
 export default NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     FacebookProvider({
       clientId: process.env.FACEBOOK_ID,
