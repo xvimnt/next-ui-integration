@@ -17,6 +17,12 @@ function Home() {
             saveAccessToken(accessToken)
         }
     }, [session])
+
+    const handleLogout = (e) => {
+        e.prevent.default()
+        setAccessToken('')
+        signOut(session)
+    }
     const [accessToken, setAccessToken] = useState('')
 
     return (
@@ -34,7 +40,7 @@ function Home() {
                             <img src={session.user.image} alt="" className="w-20 h-20 rounded-3xl border-2 border-gray-800" />
                             <h2 className="font-bold ">{session.user.name}</h2>
                             <h2 className="font-light ">{session.user.email}</h2>
-                            <button className="text-lg rounded-xl bg-red-500 text-white font-bold p-3 border" onClick={() => signOut()}>Salir</button>
+                            <button className="text-lg rounded-xl bg-red-500 text-white font-bold p-3 border" onClick={handleLogout}>Salir</button>
                         </>) : (<>
                             <button className="text-lg rounded-xl bg-red-500 text-white font-bold p-3 border" onClick={() => signIn()}>Asociar Cuenta</button>
                         </>)}
