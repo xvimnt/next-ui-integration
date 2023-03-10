@@ -14,7 +14,7 @@ function Home() {
     useEffect(() => {
         if (accessToken === '' && session?.accessToken) {
             setAccessToken(session.accessToken)
-            saveAccessToken(accessToken)
+            saveAccessToken(session.accessToken)
         }
     }, [session])
 
