@@ -1,8 +1,8 @@
 import axios from "axios"
 
-export const getAudiences = async (setAudiences) => {
+export const getAudiences = async (setAudiences, data) => {
     try {
-        const res = await axios.get(`https://graph.facebook.com/v16.0/act_3429415270670299/customaudiences?fields=id,name&&access_token=EAAKVNbIy5ycBADJSZA8cwcLF7A60OGoAZAvkAbtWuXW3IliAxB75vCoqjwi2SzE3qdMScZBrJKDYJRDn0upVw3p7Srb25OBwppdr1cQFSqCfDuQyvqwK0oZApbZCIEpnqEVUlvquntVPtLtwAys6MSQatHLsp57pcYXYLAF5caBO39da0Hxo96EBRR2Lixdyj3MeesN1aQwZDZD`)
+        const res = await axios.get(`https://graph.facebook.com/v16.0/act_${data.adsId}/customaudiences?fields=id,name&&access_token=${data.accessToken}`)
         if(res.status !== 200) {
             throw new Error(res.data)
         } else {
@@ -18,7 +18,7 @@ export const insertData = async (audienceId, data) => {
         const res = await axios.post(`https://graph.facebook.com/v16.0/${audienceId}/users`, {
             "payload": {
                 "schema": "PHONE_SHA256",
-                "data": data
+                "data": data.content
             },
             "session": {
                 "session_id": 9778993,
@@ -26,7 +26,7 @@ export const insertData = async (audienceId, data) => {
                 "last_batch_flag": true,
                 "estimated_num_total": 99996
             },
-            "access_token": "EAAKVNbIy5ycBADJSZA8cwcLF7A60OGoAZAvkAbtWuXW3IliAxB75vCoqjwi2SzE3qdMScZBrJKDYJRDn0upVw3p7Srb25OBwppdr1cQFSqCfDuQyvqwK0oZApbZCIEpnqEVUlvquntVPtLtwAys6MSQatHLsp57pcYXYLAF5caBO39da0Hxo96EBRR2Lixdyj3MeesN1aQwZDZD"
+            "access_token": data.accessToken
         })
         if(res.status !== 200) {
             throw new Error(res.data)

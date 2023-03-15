@@ -25,8 +25,7 @@ function Home() {
         setAccessToken('')
         signOut(session)
     }
-    const [accessToken, setAccessToken] = useState('')
-
+    const [accessToken, setAccessToken] = useState('EAAKVNbIy5ycBAPwCIhJktwdUu21PQZA4KqMFMgMwsSzjvTTpG3KT4PT4dfZAGPwkLNCxOmuVSwtby6oXZAcEUGyZAzPY3SMIDZA1uu4C5VokWeCPENXKULOn4gQ2ZBDZB5dTWHhpjOoIS3tTjUN9RmGsjRdgmK8go4XzNQfeuVjVtjZCRVYNGZCFM6EnjrZBmi3CZAaoCjDN1zVUQZDZD')
     return (
         <>
             <Modal />
@@ -49,7 +48,7 @@ function Home() {
                             <button className="text-lg rounded-xl bg-red-500 text-white font-bold p-3 border" onClick={() => signIn()}>Asociar Cuenta</button>
                         </>)}
                     </form>
-                    <Audiences />
+                    {accessToken && <Audiences adsId={'3429415270670299'} accessToken={accessToken}/>}
                 </div>
             </div>
         </>
