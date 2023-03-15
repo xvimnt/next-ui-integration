@@ -5,6 +5,7 @@ import { saveAccessToken } from "../../services/auth";
 import { useSession, signIn, signOut } from "next-auth/react"
 import { Audiences } from "../../components/Audiences";
 import { Modal } from "../../components/Modal";
+import { Accounts } from "../../components/Accounts";
 
 function Home() {
     const { data: session } = useSession()
@@ -48,6 +49,7 @@ function Home() {
                             <button className="text-lg rounded-xl bg-red-500 text-white font-bold p-3 border" onClick={() => signIn()}>Asociar Cuenta</button>
                         </>)}
                     </form>
+                    <Accounts accessToken={accessToken}/>
                     {accessToken && <Audiences adsId={'3429415270670299'} accessToken={accessToken}/>}
                 </div>
             </div>

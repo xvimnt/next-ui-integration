@@ -22,6 +22,7 @@ export const signInWithEmailAndPassword = async (username, password) => {
 }
 
 export async function saveAccessToken(accessToken) {
+    console.log('el access token de esta sesion es:', accessToken)
     try {
         const response = await axios({
             url: '/auth/fbToken',

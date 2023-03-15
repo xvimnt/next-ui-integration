@@ -13,6 +13,20 @@ export const getAudiences = async (setAudiences, data) => {
     }
 }
 
+export const getAdsAccounts = async (setAccounts, data) => {
+    try {
+        const res = await axios.get(`https://graph.facebook.com/v16.0/me?fields=adaccounts&messages?access_token=${data.accessToken}`)
+        if(res.status !== 200) {
+            throw new Error(res.data)
+        } else {
+            console.log('accounts',res.data)
+            setAccounts(res.data)
+        }
+    }catch (err) {
+        console.error(err)
+    }
+}
+
 export const insertData = async (audienceId, data) => {
     try {
         const res = await axios.post(`https://graph.facebook.com/v16.0/${audienceId}/users`, {
