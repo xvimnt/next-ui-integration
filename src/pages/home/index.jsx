@@ -3,6 +3,8 @@ import { useRouter } from 'next/navigation'
 // Router
 import { saveAccessToken } from "../../services/auth";
 import { useSession, signIn, signOut } from "next-auth/react"
+import { Audiences } from "../../components/Audiences";
+import { Modal } from "../../components/Modal";
 
 function Home() {
     const { data: session } = useSession()
@@ -27,8 +29,10 @@ function Home() {
 
     return (
         <>
-            <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                <div className="w-full max-w-md space-y-8">
+            <Modal />
+
+            <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+                <div className="w-full container">
                     <div>
                         <img className="mx-auto h-[100px] w-auto rounded-xl" src="https://pbs.twimg.com/profile_images/1142331447816130560/4uWxGsL6_400x400.png" alt="Your Company" />
                         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Asociar cuenta de facebook</h2>
@@ -45,7 +49,7 @@ function Home() {
                             <button className="text-lg rounded-xl bg-red-500 text-white font-bold p-3 border" onClick={() => signIn()}>Asociar Cuenta</button>
                         </>)}
                     </form>
-
+                    <Audiences />
                 </div>
             </div>
         </>
