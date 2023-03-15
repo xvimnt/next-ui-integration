@@ -22,7 +22,7 @@ export const Audiences = ({adsId, accessToken}) => {
     useEffect(() => {
         getAudiences(setAudiences,{adsId, accessToken})
         setFilteredAudiences(audiences?.data)
-    }, [])
+    }, [adsId, accessToken])
 
 
     const handleClick = (item) => {
@@ -70,8 +70,8 @@ export const Audiences = ({adsId, accessToken}) => {
 
             <div className='grid grid-cols-3 gap-2'>
 
-                {filteredAudiences?.length > 0 && (
-                    filteredAudiences.map(el => {
+                {(
+                    filteredAudiences?.map(el => {
                         return (
                             <div key={el.id} className="w-full">
                                 <div className="border-gray-400 rounded-2xl border-2 bg-white p-4 flex flex-col">

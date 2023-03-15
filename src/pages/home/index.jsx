@@ -26,6 +26,7 @@ function Home() {
         setAccessToken('')
         signOut(session)
     }
+    const [accountId, setSelectedAccountId] = useState()
     const [accessToken, setAccessToken] = useState('EAAKVNbIy5ycBAPwCIhJktwdUu21PQZA4KqMFMgMwsSzjvTTpG3KT4PT4dfZAGPwkLNCxOmuVSwtby6oXZAcEUGyZAzPY3SMIDZA1uu4C5VokWeCPENXKULOn4gQ2ZBDZB5dTWHhpjOoIS3tTjUN9RmGsjRdgmK8go4XzNQfeuVjVtjZCRVYNGZCFM6EnjrZBmi3CZAaoCjDN1zVUQZDZD')
     return (
         <>
@@ -49,8 +50,8 @@ function Home() {
                             <button className="text-lg rounded-xl bg-red-500 text-white font-bold p-3 border" onClick={() => signIn()}>Asociar Cuenta</button>
                         </>)}
                     </form>
-                    <Accounts accessToken={accessToken}/>
-                    {accessToken && <Audiences adsId={'3429415270670299'} accessToken={accessToken}/>}
+                    <Accounts accessToken={accessToken} selectedOption={accountId} setSelectedOption={setSelectedAccountId}/>
+                    <Audiences adsId={accountId} accessToken={accessToken}/>
                 </div>
             </div>
         </>
