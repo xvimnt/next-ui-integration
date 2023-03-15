@@ -11,14 +11,17 @@ function encryptStringToSHA256(string) {
 
 export const Audiences = () => {
     const [audiences, setAudiences] = useState()
+    const [filteredAudiences, setFilteredAudiences] = useState()
     const [showModal, setShowModal] = useState(false)
     const [selectedAudience, setSelectedAudience] = useState()
 
+    const searchRef = useRef(null)
     const nameRef = useRef(null)
     const phoneRef = useRef(null)
 
     useEffect(() => {
         getAudiences(setAudiences)
+        setFilteredAudiences(audiences.data)
     }, [])
 
 
@@ -38,14 +41,33 @@ export const Audiences = () => {
         }
     }
 
+    const handleSearch = () => {
+        const searchValue = searchRef.current?.value
+        const filteredAudiences = [...audiences.data].filter(audience =>
+            audience.name.toLowerCase().startsWith(searchValue.toLowerCase())
+            || audience.id.toString().startsWith(searchValue.toLowerCase())
+        )
+        setFilteredAudiences(filteredAudiences)
+    }
+
 
     return (
         <>
             <hr className='my-3' />
             <h1 className='text-3xl font-bold flex flex-col items-center my-4'>Audiencias</h1>
+            <div class="relative w-full max-w-md border rounded-md my-3">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                    <svg class="h-6 w-6 fill-current text-gray-500" viewBox="0 0 24 24">
+                        <path d="M15.56 14.44a9 9 0 1 1 1.42-1.42l5.09 5.08a1 1 0 0 1-1.42 1.42l-5.09-5.08zM4.5 10a5.5 5.5 0 1 0 11 0 5.5 5.5 0 0 0-11 0z" />
+                    </svg>
+                </span>
+                <input onChange={handleSearch} ref={searchRef} class="block w-full rounded-lg pl-10 pr-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:shadow-outline-blue focus:text-gray-900 focus:placeholder-gray-400 sm:text-sm sm:leading-5" placeholder="Search" />
+            </div>
+
             <div className='grid grid-cols-3 gap-2'>
-                {audiences?.data.length > 0 && (
-                    audiences.data.map(el => {
+
+                {filteredAudiences?.length > 0 && (
+                    filteredAudiences.map(el => {
                         return (
                             <div key={el.id} className="w-full">
                                 <div className="border-gray-400 rounded-2xl border-2 bg-white p-4 flex flex-col">
