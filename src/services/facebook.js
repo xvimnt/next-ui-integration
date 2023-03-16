@@ -2,11 +2,13 @@ import axios from "axios"
 
 export const getAudiences = async (setAudiences, data) => {
     try {
-        const res = await axios.get(`https://graph.facebook.com/v16.0/act_${data.adsId}/customaudiences?fields=id,name&&access_token=${data.accessToken}`)
-        if(res.status !== 200) {
-            throw new Error(res.data)
-        } else {
-            setAudiences(res.data)
+        if(data.adsId && data.accessToken) {
+            const res = await axios.get(`https://graph.facebook.com/v16.0/act_${data.adsId}/customaudiences?fields=id,name&&access_token=${data.accessToken}`)
+            if(res.status !== 200) {
+                throw new Error(res.data)
+            } else {
+                setAudiences(res.data)
+            }
         }
     }catch (err) {
         console.error(err)
@@ -15,7 +17,7 @@ export const getAudiences = async (setAudiences, data) => {
 
 export const getAdsAccounts = async (setAccounts, data) => {
     try {
-        const res = await axios.get(`https://graph.facebook.com/v16.0/me/adaccounts?access_token=${data.accessToken}`)
+        const res = await axios.get(`https://graph.facebook.com/v16.0/me/adaccounts?fields=account_id,id,name&&access_token=${data.accessToken}`)
         if(res.status !== 200) {
             throw new Error(res.data)
         } else {

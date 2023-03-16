@@ -23,7 +23,7 @@ export const Accounts = ({ accessToken, selectedOption, setSelectedOption }) => 
                     {
                         accounts.data &&
                         accounts.data.map(account => {
-                            return <option key={account.account_id} value={account.account_id}>{account.id}</option>
+                            return <option key={account.account_id} value={account.account_id}>{account.id} - {account.name}</option>
                         })
                     }
                 </select>

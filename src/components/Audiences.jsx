@@ -21,9 +21,13 @@ export const Audiences = ({adsId, accessToken}) => {
 
     useEffect(() => {
         getAudiences(setAudiences,{adsId, accessToken})
-        setFilteredAudiences(audiences?.data)
     }, [adsId, accessToken])
 
+    useEffect(() => {
+        if(audiences) {
+            setFilteredAudiences([...audiences.data])
+        }
+    }, [audiences])
 
     const handleClick = (item) => {
         setShowModal(true)
