@@ -26,20 +26,17 @@ function Home() {
         setAccessToken('')
         signOut(session)
     }
-    const [accountId, setSelectedAccountId] = useState()
+    const [selectedAccount, setSelectedAccount] = useState()
     const [accessToken, setAccessToken] = useState('EAAKVNbIy5ycBAPwCIhJktwdUu21PQZA4KqMFMgMwsSzjvTTpG3KT4PT4dfZAGPwkLNCxOmuVSwtby6oXZAcEUGyZAzPY3SMIDZA1uu4C5VokWeCPENXKULOn4gQ2ZBDZB5dTWHhpjOoIS3tTjUN9RmGsjRdgmK8go4XzNQfeuVjVtjZCRVYNGZCFM6EnjrZBmi3CZAaoCjDN1zVUQZDZD')
     return (
         <>
-            <Modal />
-
             <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <div className="w-full container">
                     <div>
                         <img className="mx-auto h-[100px] w-auto rounded-xl" src="https://pbs.twimg.com/profile_images/1142331447816130560/4uWxGsL6_400x400.png" alt="Your Company" />
                         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Asociar cuenta de facebook</h2>
-
                     </div>
-                    {accessToken && <p className="font-light flex flex-row items-center justify-center">Tu cuenta ha sido asociada con exito!</p>}
+                    {session && <p className="font-light flex flex-row items-center justify-center">Tu cuenta ha sido asociada con exito!</p>}
                     <form className="mt-8 space-y-6 flex flex-col items-center justify-center" action="#" method="POST">
                         {session ? (<>
                             <img src={session.user.image} alt="" className="w-20 h-20 rounded-3xl border-2 border-gray-800" />
@@ -50,8 +47,8 @@ function Home() {
                             <button className="text-lg rounded-xl bg-red-500 text-white font-bold p-3 border" onClick={() => signIn()}>Asociar Cuenta</button>
                         </>)}
                     </form>
-                    <Accounts accessToken={accessToken} selectedOption={accountId} setSelectedOption={setSelectedAccountId}/>
-                    <Audiences adsId={accountId} accessToken={accessToken}/>
+                    <Accounts accessToken={accessToken} selectedOption={selectedAccount} setSelectedOption={setSelectedAccount}/>
+                    <Audiences selectedAccount={selectedAccount} accessToken={accessToken}/>
                 </div>
             </div>
         </>

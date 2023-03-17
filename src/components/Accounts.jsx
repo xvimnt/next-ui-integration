@@ -5,7 +5,8 @@ export const Accounts = ({ accessToken, selectedOption, setSelectedOption }) => 
     const [accounts, setAccounts] = useState([])
 
     function handleSelectChange(event) {
-        setSelectedOption(event.target.value);
+        const selected = accounts.data.filter(acc => acc.account_id === event.target.value)[0]
+        setSelectedOption(selected);
     }
 
     useEffect(() => {
