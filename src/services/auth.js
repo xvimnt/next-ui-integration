@@ -21,6 +21,27 @@ export const signInWithEmailAndPassword = async (username, password) => {
     }
 }
 
+export const getCurrentProfile = async () => {
+    try {
+        const response = await axios({
+            url: '/auth/profile',
+            baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
+            method: "get",
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        })
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return response.data
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 export async function saveAccessToken(accessToken) {
     console.log('el access token de esta sesion es:', accessToken)
     try {

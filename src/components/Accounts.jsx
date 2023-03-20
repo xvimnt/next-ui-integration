@@ -1,6 +1,6 @@
 import { getAdsAccounts } from "../services/facebook"
 import { useState, useEffect } from "react"
-import { AccountSelect } from "./AccountSelect"
+import {AccountsSelect } from './AccountsSelect'
 export const Accounts = ({ accessToken, selectedOption, setSelectedOption }) => {
 
     const [accounts, setAccounts] = useState([])
@@ -19,7 +19,7 @@ export const Accounts = ({ accessToken, selectedOption, setSelectedOption }) => 
             <hr className='my-3' />
             <h1 className='text-3xl font-bold flex flex-col items-center my-4'>Cuentas Publicitarias</h1>
             <div className="relative flex flex-col items-center justify-center">
-                <AccountSelect accounts={accounts} selectedOption={selectedOption} handleSelectChange={handleSelectChange} />
+                <AccountsSelect selectedOption={selectedOption?.account_id} handleSelectChange={handleSelectChange} accounts={accounts} />
             </div>
         </>
     )

@@ -1,17 +1,25 @@
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'
 // Router
-import { saveAccessToken } from "../../services/auth";
+import { getCurrentProfile, saveAccessToken } from "../../services/auth";
 import { useSession, signIn, signOut } from "next-auth/react"
 import { Audiences } from "../../components/Audiences";
-import { Modal } from "../../components/Modal";
 import { Accounts } from "../../components/Accounts";
-
+import AsociateOrganization from '../../components/AsociateOrganization'
 function Home() {
     const { data: session } = useSession()
+    const [userProfile, setUserProfile] = useState({})
     const router = useRouter()
+
+
     useEffect(() => {
+        const setProfile = async () => {
+            const currentProfile = await getCurrentProfile()
+            setUserProfile(currentProfile)
+        }
+
         if (!localStorage.getItem('jwt')) router.push('/')
+        else setProfile()
     }, [])
 
     useEffect(() => {
@@ -47,8 +55,9 @@ function Home() {
                             <button className="text-lg rounded-xl bg-red-500 text-white font-bold p-3 border" onClick={() => signIn()}>Asociar Cuenta</button>
                         </>)}
                     </form>
-                    <Accounts accessToken={accessToken} selectedOption={selectedAccount} setSelectedOption={setSelectedAccount}/>
-                    <Audiences selectedAccount={selectedAccount} accessToken={accessToken}/>
+                    {userProfile?.role === 'admin' && <AsociateOrganization />}
+                    <Accounts accessToken={accessToken} selectedOption={selectedAccount} setSelectedOption={setSelectedAccount} />
+                    <Audiences selectedAccount={selectedAccount} accessToken={accessToken} />
                 </div>
             </div>
         </>

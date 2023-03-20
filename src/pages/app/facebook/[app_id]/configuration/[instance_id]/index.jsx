@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { getAdsAccounts } from "../../../../../../services/facebook"
 import { useState, useEffect } from "react"
-import { AccountSelect } from "../../../../../../components/AccountSelect"
+import {AccountsSelect} from '../../../../../../components/AccountsSelect'
 import React from 'react'
 
 export default function Configuration() {
@@ -38,7 +38,7 @@ export default function Configuration() {
               <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
                 Cuenta
               </label>
-              <AccountSelect accounts={accounts} selectedOption={selectedOption} handleSelectChange={handleSelectChange} />
+              <AccountsSelect accounts={accounts} selectedOption={selectedOption?.account_id} handleSelectChange={handleSelectChange} />
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
