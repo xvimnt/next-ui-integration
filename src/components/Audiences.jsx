@@ -14,7 +14,6 @@ export const Audiences = ({ accessToken, selectedAccount }) => {
     const [audiences, setAudiences] = useState()
     const [filteredAudiences, setFilteredAudiences] = useState()
     const [showModal, setShowModal] = useState(false)
-    const [showConfigModal, setShowConfigModal] = useState(false)
     const [selectedAudience, setSelectedAudience] = useState()
 
     const searchRef = useRef(null)
@@ -36,10 +35,6 @@ export const Audiences = ({ accessToken, selectedAccount }) => {
 
     const handleClick = (item) => {
         setShowModal(true)
-        setSelectedAudience(item)
-    }
-    const handleConfig = (item) => {
-        setShowConfigModal(true)
         setSelectedAudience(item)
     }
 
@@ -81,24 +76,12 @@ export const Audiences = ({ accessToken, selectedAccount }) => {
                 {(
                     filteredAudiences?.map(el => {
                         return (
-                            <Audience key={el.id} audience={el} handleClick={handleClick} handleConfig={handleConfig} />
+                            <Audience key={el.id} audience={el} handleClick={handleClick} />
                         )
                     })
                 )
                 }
             </div>
-            <Modal showModal={showConfigModal} setShowModal={setShowConfigModal}>
-                <h1 className='font-bold text-2xl p-1 m-2 text-center'>Configuracion</h1>
-                <div className='grid grid-rows-3 justify-items-center gap-2 p-4 w-full'>
-                    <h1 className='font-semibold p-1 text-center'>Cuenta: <span className='font-light'>{selectedAccount?.name}</span></h1>
-                    <h1 className='font-semibold p-1 text-center'>Audiencia: <span className='font-light'>{selectedAudience?.name}</span></h1>
-                    <div className="flex flex-col items-center justify-between">
-                        <button onClick={handleSubmit} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline" type="button">
-                            Guardar Configuracion
-                        </button>
-                    </div>
-                </div>
-            </Modal>
             <Modal showModal={showModal} setShowModal={setShowModal}>
                 <h1 className='font-bold text-2xl p-1 m-2 text-center'>Agregar usuarios</h1>
                 <h1 className='font-light p-1 m-2 text-center'>{selectedAudience?.name}</h1>
