@@ -1,26 +1,31 @@
 import { useRouter } from 'next/router'
 import { getAdsAccounts } from "../../../../../../services/facebook"
 import { useState, useEffect } from "react"
-import {AccountsSelect} from '../../../../../../components/AccountsSelect'
+import { AccountsSelect } from '../../../../../../components/AccountsSelect'
 import React from 'react'
+import { AudiencesSelect } from '../../../../../../components/AudienceSelect'
 
 export default function Configuration() {
   const router = useRouter()
   const { app_id, instance_id } = router.query
 
   const [accounts, setAccounts] = useState([])
-  const [selectedOption, setSelectedOption] = useState([])
-  const [accessToken, setAccessToken] = useState('EAAKVNbIy5ycBAPwCIhJktwdUu21PQZA4KqMFMgMwsSzjvTTpG3KT4PT4dfZAGPwkLNCxOmuVSwtby6oXZAcEUGyZAzPY3SMIDZA1uu4C5VokWeCPENXKULOn4gQ2ZBDZB5dTWHhpjOoIS3tTjUN9RmGsjRdgmK8go4XzNQfeuVjVtjZCRVYNGZCFM6EnjrZBmi3CZAaoCjDN1zVUQZDZD')
+  const [selectedAccount, setSelectedAccount] = useState([])
+  const [selectedAudience, setSelectedAudience] = useState([])
 
-  function handleSelectChange(event) {
+  function handleSelectAccount(event) {
     const selected = accounts.data.filter(acc => acc.account_id === event.target.value)[0]
-    setSelectedOption(selected);
+    setSelectedAccount(selected);
+  }
+  function handleSelectAudience(event) {
+    setSelectedAudience(event.target.value);
   }
 
   useEffect(() => {
+    localStorage.setItem('accessToken', 'EAAKVNbIy5ycBAPwCIhJktwdUu21PQZA4KqMFMgMwsSzjvTTpG3KT4PT4dfZAGPwkLNCxOmuVSwtby6oXZAcEUGyZAzPY3SMIDZA1uu4C5VokWeCPENXKULOn4gQ2ZBDZB5dTWHhpjOoIS3tTjUN9RmGsjRdgmK8go4XzNQfeuVjVtjZCRVYNGZCFM6EnjrZBmi3CZAaoCjDN1zVUQZDZD')
     if (typeof window !== 'undefined') {
       // Perform localStorage action
-      getAdsAccounts(setAccounts, { accessToken })
+      getAdsAccounts(setAccounts)
     }
   }, [])
 
@@ -38,13 +43,13 @@ export default function Configuration() {
               <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
                 Cuenta
               </label>
-              <AccountsSelect accounts={accounts} selectedOption={selectedOption?.account_id} handleSelectChange={handleSelectChange} />
+              <AccountsSelect accounts={accounts} selectedOption={selectedAccount?.account_id} handleSelectChange={handleSelectAccount} />
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
                 Audiencia
               </label>
-              <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone" type="number" placeholder="12345678" />
+              <AudiencesSelect account_id={selectedAccount} selectedOption={selectedAudience} handleSelectChange={handleSelectAudience} />
             </div>
             <div className="flex flex-col items-center justify-between">
               <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline" type="button">

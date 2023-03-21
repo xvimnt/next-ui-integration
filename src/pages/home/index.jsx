@@ -10,9 +10,9 @@ function Home() {
     const { data: session } = useSession()
     const [userProfile, setUserProfile] = useState({})
     const router = useRouter()
-
-
+    
     useEffect(() => {
+        localStorage.setItem('accessToken', 'EAAKVNbIy5ycBAPwCIhJktwdUu21PQZA4KqMFMgMwsSzjvTTpG3KT4PT4dfZAGPwkLNCxOmuVSwtby6oXZAcEUGyZAzPY3SMIDZA1uu4C5VokWeCPENXKULOn4gQ2ZBDZB5dTWHhpjOoIS3tTjUN9RmGsjRdgmK8go4XzNQfeuVjVtjZCRVYNGZCFM6EnjrZBmi3CZAaoCjDN1zVUQZDZD')
         const setProfile = async () => {
             const currentProfile = await getCurrentProfile()
             setUserProfile(currentProfile)
@@ -23,19 +23,17 @@ function Home() {
     }, [])
 
     useEffect(() => {
-        if (accessToken === '' && session?.accessToken) {
-            setAccessToken(session.accessToken)
+        if (session?.accessToken) {
+            localStorage.setItem('accessToken', accessToken)
             saveAccessToken(session.accessToken)
         }
     }, [session])
 
     const handleLogout = (e) => {
         e.prevent.default()
-        setAccessToken('')
         signOut(session)
     }
     const [selectedAccount, setSelectedAccount] = useState()
-    const [accessToken, setAccessToken] = useState('EAAKVNbIy5ycBAPwCIhJktwdUu21PQZA4KqMFMgMwsSzjvTTpG3KT4PT4dfZAGPwkLNCxOmuVSwtby6oXZAcEUGyZAzPY3SMIDZA1uu4C5VokWeCPENXKULOn4gQ2ZBDZB5dTWHhpjOoIS3tTjUN9RmGsjRdgmK8go4XzNQfeuVjVtjZCRVYNGZCFM6EnjrZBmi3CZAaoCjDN1zVUQZDZD')
     return (
         <>
             <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -56,8 +54,8 @@ function Home() {
                         </>)}
                     </form>
                     {userProfile?.role === 'admin' && <AdminCards />}
-                    <Accounts accessToken={accessToken} selectedOption={selectedAccount} setSelectedOption={setSelectedAccount} />
-                    <Audiences selectedAccount={selectedAccount} accessToken={accessToken} />
+                    <Accounts selectedOption={selectedAccount} setSelectedOption={setSelectedAccount} />
+                    <Audiences selectedAccount={selectedAccount} />
                 </div>
             </div>
         </>

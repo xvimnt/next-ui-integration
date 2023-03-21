@@ -10,7 +10,7 @@ function encryptStringToSHA256(string) {
     return hash.digest('hex');
 }
 
-export const Audiences = ({ accessToken, selectedAccount }) => {
+export const Audiences = ({ selectedAccount }) => {
     const [audiences, setAudiences] = useState()
     const [filteredAudiences, setFilteredAudiences] = useState()
     const [showModal, setShowModal] = useState(false)
@@ -23,9 +23,9 @@ export const Audiences = ({ accessToken, selectedAccount }) => {
     useEffect(() => {
         if (selectedAccount) {
             const adsId = selectedAccount.account_id
-            getAudiences(setAudiences, { adsId, accessToken })
+            getAudiences(setAudiences, { adsId })
         }
-    }, [selectedAccount, accessToken])
+    }, [selectedAccount])
 
     useEffect(() => {
         if (audiences) {
@@ -44,10 +44,9 @@ export const Audiences = ({ accessToken, selectedAccount }) => {
         const phoneValue = phoneRef.current?.value
         if (nameValue && phoneValue) {
             const data = {
-                content: [encryptStringToSHA256(phoneValue)],
-                accessToken: accessToken
+                content: [encryptStringToSHA256(phoneValue)]
             }
-            const res = await insertData(selectedAudience.id, data)
+            await insertData(selectedAudience.id, data)
             setShowModal(false)
         }
     }

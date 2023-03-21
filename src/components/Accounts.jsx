@@ -1,7 +1,7 @@
 import { getAdsAccounts } from "../services/facebook"
 import { useState, useEffect } from "react"
-import {AccountsSelect } from './AccountsSelect'
-export const Accounts = ({ accessToken, selectedOption, setSelectedOption }) => {
+import { AccountsSelect } from './AccountsSelect'
+export const Accounts = ({ selectedOption, setSelectedOption }) => {
 
     const [accounts, setAccounts] = useState([])
 
@@ -11,7 +11,7 @@ export const Accounts = ({ accessToken, selectedOption, setSelectedOption }) => 
     }
 
     useEffect(() => {
-        getAdsAccounts(setAccounts, { accessToken })
+        getAdsAccounts(setAccounts)
     }, [])
 
     return (

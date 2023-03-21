@@ -2,16 +2,16 @@ import React from 'react'
 
 export const Card = ({title, subtitle, action, icon}) => {
     return (
-        <div class="bg-white rounded-lg shadow-md">
-            <div class="p-4 flex items-center justify-between">
-                <div class="flex items-center">
+        <div className="bg-white rounded-lg shadow-md">
+            <div className="p-4 flex items-center justify-between">
+                <div className="flex items-center">
                     {icon}
                     <div>
-                        <h2 class="text-lg font-medium text-gray-900">{title}</h2>
-                        <p class="text-sm text-gray-500">{subtitle}</p>
+                        <h2 className="text-lg font-medium text-gray-900">{title}</h2>
+                        <p className="text-sm text-gray-500">{subtitle}</p>
                     </div>
                 </div>
-                <button onClick={action} class="text-blue-500 hover:text-blue-700">Ver mas</button>
+                <button onClick={action} className="text-blue-500 hover:text-blue-700">Ver mas</button>
             </div>
         </div>
     )
