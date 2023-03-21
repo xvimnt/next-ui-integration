@@ -10,12 +10,11 @@ export default function Configuration() {
   const { app_id, instance_id } = router.query
 
   const [accounts, setAccounts] = useState([])
-  const [selectedAccount, setSelectedAccount] = useState([])
-  const [selectedAudience, setSelectedAudience] = useState([])
+  const [selectedAccount, setSelectedAccount] = useState("")
+  const [selectedAudience, setSelectedAudience] = useState("")
 
   function handleSelectAccount(event) {
-    const selected = accounts.data.filter(acc => acc.account_id === event.target.value)[0]
-    setSelectedAccount(selected);
+    setSelectedAccount(event.target.value);
   }
   function handleSelectAudience(event) {
     setSelectedAudience(event.target.value);
@@ -43,7 +42,7 @@ export default function Configuration() {
               <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
                 Cuenta
               </label>
-              <AccountsSelect accounts={accounts} selectedOption={selectedAccount?.account_id} handleSelectChange={handleSelectAccount} />
+              <AccountsSelect accounts={accounts} selectedOption={selectedAccount} handleSelectChange={handleSelectAccount} />
             </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-bold mb-2" htmlFor="email">

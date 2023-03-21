@@ -11,7 +11,7 @@ export const Card = ({title, subtitle, action, icon}) => {
                         <p className="text-sm text-gray-500">{subtitle}</p>
                     </div>
                 </div>
-                <button onClick={action} className="text-blue-500 hover:text-blue-700">Ver mas</button>
+                <button onClick={action} className="text-red-500 hover:text-red-700">Ver mas</button>
             </div>
         </div>
     )

@@ -6,7 +6,6 @@ export const AudiencesSelect = ({ selectedOption, handleSelectChange, account_id
     useEffect(() => {
         const asyncAudiences = async () => {
             await getAudiences(setAudiences, {adsId: account_id})
-            console.log(audiences)
         }
         asyncAudiences()
     }, [account_id])
@@ -15,7 +14,7 @@ export const AudiencesSelect = ({ selectedOption, handleSelectChange, account_id
             <option value="">Selecciona una audiencia...</option>
             {
                 audiences &&
-                audiences.map(audience => {
+                audiences.data.map(audience => {
                     return <option key={audience.id} value={audience.id}>{audience.name}</option>
                 })
             }
