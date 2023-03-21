@@ -18,7 +18,7 @@ export const Accounts = ({ accessToken, selectedOption, setSelectedOption }) => 
         <>
             <hr className='my-3' />
             <h1 className='text-3xl font-bold flex flex-col items-center my-4'>Cuentas Publicitarias</h1>
-            <div className="relative flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
                 <AccountsSelect selectedOption={selectedOption?.account_id} handleSelectChange={handleSelectChange} accounts={accounts} />
             </div>
         </>

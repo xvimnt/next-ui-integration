@@ -66,11 +66,8 @@ export const Audiences = ({ accessToken, selectedAccount }) => {
         <>
             <hr className='my-3' />
             <h1 className='text-3xl font-bold flex flex-col items-center my-4'>Audiencias</h1>
-            <div className="relative w-full max-w-md border rounded-md my-3">
-                <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                    <svg className='w-6 h-6' clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m15.985 17.031c-1.479 1.238-3.384 1.985-5.461 1.985-4.697 0-8.509-3.812-8.509-8.508s3.812-8.508 8.509-8.508c4.695 0 8.508 3.812 8.508 8.508 0 2.078-.747 3.984-1.985 5.461l4.749 4.75c.146.146.219.338.219.531 0 .587-.537.75-.75.75-.192 0-.384-.073-.531-.22zm-5.461-13.53c-3.868 0-7.007 3.14-7.007 7.007s3.139 7.007 7.007 7.007c3.866 0 7.007-3.14 7.007-7.007s-3.141-7.007-7.007-7.007zm.741 8.499h-4.5c-.414 0-.75.336-.75.75s.336.75.75.75h4.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75zm3-2.5h-7.5c-.414 0-.75.336-.75.75s.336.75.75.75h7.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75zm0-2.5h-7.5c-.414 0-.75.336-.75.75s.336.75.75.75h7.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75z" fillRule="nonzero" /></svg>
-                </span>
-                <input onChange={handleSearch} ref={searchRef} className="block w-full rounded-lg pl-10 pr-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:shadow-outline-blue focus:text-gray-900 focus:placeholder-gray-400 sm:text-sm sm:leading-5" placeholder="Search" />
+            <div className="w-full max-w-md border rounded-md my-3">
+                <input onChange={handleSearch} ref={searchRef} className="block w-full rounded-lg pl-10 pr-4 py-2 text-gray-900 placeholder-gray-500 focus:outline-none focus:shadow-outline-blue focus:text-gray-900 focus:placeholder-gray-400 sm:text-sm sm:leading-5 -z-1000" placeholder="Buscar" />
             </div>
             <div className='grid grid-cols-3 gap-2'>
                 {(

@@ -5,7 +5,7 @@ import { getCurrentProfile, saveAccessToken } from "../../services/auth";
 import { useSession, signIn, signOut } from "next-auth/react"
 import { Audiences } from "../../components/Audiences";
 import { Accounts } from "../../components/Accounts";
-import AsociateOrganization from '../../components/AsociateOrganization'
+import AdminCards from '../../components/AdminCards'
 function Home() {
     const { data: session } = useSession()
     const [userProfile, setUserProfile] = useState({})
@@ -55,7 +55,7 @@ function Home() {
                             <button className="text-lg rounded-xl bg-red-500 text-white font-bold p-3 border" onClick={() => signIn()}>Asociar Cuenta</button>
                         </>)}
                     </form>
-                    {userProfile?.role === 'admin' && <AsociateOrganization />}
+                    {userProfile?.role === 'admin' && <AdminCards />}
                     <Accounts accessToken={accessToken} selectedOption={selectedAccount} setSelectedOption={setSelectedAccount} />
                     <Audiences selectedAccount={selectedAccount} accessToken={accessToken} />
                 </div>
