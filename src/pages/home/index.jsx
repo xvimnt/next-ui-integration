@@ -12,12 +12,10 @@ function Home() {
     const router = useRouter()
     
     useEffect(() => {
-        localStorage.setItem('accessToken', 'EAAKVNbIy5ycBAPwCIhJktwdUu21PQZA4KqMFMgMwsSzjvTTpG3KT4PT4dfZAGPwkLNCxOmuVSwtby6oXZAcEUGyZAzPY3SMIDZA1uu4C5VokWeCPENXKULOn4gQ2ZBDZB5dTWHhpjOoIS3tTjUN9RmGsjRdgmK8go4XzNQfeuVjVtjZCRVYNGZCFM6EnjrZBmi3CZAaoCjDN1zVUQZDZD')
         const setProfile = async () => {
             const currentProfile = await getCurrentProfile()
             setUserProfile(currentProfile)
         }
-
         if (!localStorage.getItem('jwt')) router.push('/')
         else setProfile()
     }, [])

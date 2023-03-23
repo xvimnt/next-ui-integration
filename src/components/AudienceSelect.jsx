@@ -14,7 +14,7 @@ export const AudiencesSelect = ({ selectedOption, handleSelectChange, account_id
             <option value="">Selecciona una audiencia...</option>
             {
                 audiences &&
-                audiences.data.map(audience => {
+                audiences.data?.map(audience => {
                     return <option key={audience.id} value={audience.id}>{audience.name}</option>
                 })
             }
