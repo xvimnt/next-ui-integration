@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { AccountsSelect } from '../../../../../../components/AccountsSelect'
 import React from 'react'
 import { AudiencesSelect } from '../../../../../../components/AudienceSelect'
-import { createInstanceConfig } from '../../../../../../services/instance'
+import { createInstanceConfig, getInstanceConfig } from '../../../../../../services/instance'
 import { Toast } from '../../../../../../components/Toast'
 
 export default function Configuration() {
@@ -63,9 +63,17 @@ export default function Configuration() {
   }
 
   useEffect(() => {
+    const checkConfig = async () => {
+      const res = await getInstanceConfig({instance_id: instance_id, app_id: app_id})
+      if(res) {
+        setSelectedAccount(res.configuration.account_id)
+        setSelectedAudience(res.configuration.audience_id)
+      }
+    }
     if (typeof window !== 'undefined') {
-      // Perform localStorage action
       getAdsAccounts(setAccounts)
+      // check if a config exists
+      checkConfig()
     }
   }, [])
 
