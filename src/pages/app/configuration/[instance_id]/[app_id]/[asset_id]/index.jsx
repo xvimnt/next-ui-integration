@@ -75,7 +75,7 @@ export default function Configuration() {
       // check if a config exists
       checkConfig()
     }
-  }, [])
+  }, [instance_id, app_id])
 
   return (
     <div className='container mx-auto h-[100vh] bg-black/80'>
