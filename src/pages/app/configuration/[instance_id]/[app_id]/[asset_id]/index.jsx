@@ -79,8 +79,8 @@ export default function Configuration() {
 
   return (
     <div className='container mx-auto h-[100vh] bg-black/80'>
-      <Toast body={'Configuracion Exitosa!'} show={showToast}/>
-      <Toast body={'Error en la configuracion!'} show={showErrorToast}/>
+      <Toast body={'Configuracion Exitosa!'} show={showToast} color='bg-green-500'/>
+      <Toast body={'Error en la configuracion!'} show={showErrorToast} color='bg-red-500'/>
       <div className='flex justify-center items-center p-4'>
         <form action="" className='bg-white rounded-2xl'>
           <h1 className='font-bold text-2xl p-1 m-2 text-center'>Configuracion Facebook</h1>
