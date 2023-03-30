@@ -21,7 +21,9 @@ export default function AdminCards() {
     const handleSubmit = () => {
         const user = {
             id: selectedUser,
-            app_id: selectedOrg
+            app_id: selectedOrg,
+            // TODO: remove
+            facebook_token: localStorage.getItem('accessToken')
         }
         updateUser(user)
         setShowModal(false)

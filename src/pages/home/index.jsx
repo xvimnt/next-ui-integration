@@ -6,6 +6,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import { Audiences } from "../../components/Audiences";
 import { Accounts } from "../../components/Accounts";
 import AdminCards from '../../components/AdminCards'
+import { updateUser } from "../../services/users";
 function Home() {
     const { data: session } = useSession()
     const [userProfile, setUserProfile] = useState({})
@@ -21,10 +22,19 @@ function Home() {
     }, [])
 
     useEffect(() => {
-        if (session?.accessToken) {
+
+        const saveToken = async () => {
+            // First we save the token to the local storage then to fbToken table and then we save the user
             localStorage.setItem('accessToken', accessToken)
-            saveAccessToken(session.accessToken)
+            await saveAccessToken(session.accessToken)
+            const user = {
+                id: session.user.id,
+                facebook_token: accessToken
+            }
+            await updateUser(user)
         }
+
+        if (session?.accessToken) saveToken()
     }, [session])
 
     const handleLogout = (e) => {
