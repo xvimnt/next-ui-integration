@@ -12,7 +12,8 @@ export const axiosFetch = async (url, method, data = null) => {
                 'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
             },
         })
-        if (response.status !== 200) {
+        if ([200, 201].indexOf(response.status) === -1) {
+            console.error(response)
             throw new Error(response.data);
         }
         return response.data
@@ -33,7 +34,8 @@ export const axiosFetchResponse = async (url, method, data = null) => {
                 'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
             },
         })
-        if (response.status !== 201) {
+        if ([200, 201].indexOf(response.status) === -1) {
+            console.error(response)
             throw new Error(response.data);
         }
         return response

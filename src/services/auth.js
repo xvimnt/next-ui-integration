@@ -43,23 +43,5 @@ export const getCurrentProfile = async () => {
 }
 
 export async function saveAccessToken(accessToken) {
-    try {
-        const response = await axios({
-            url: '/auth/fbToken',
-            baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
-            method: "post",
-            data: { accessToken },
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-            },
-        })
-        if (response.status !== 201) {
-            throw new Error(response.data);
-        }
-        return response
-    } catch (error) {
-        console.error(error)
-    }
+    return axiosFetch(`/auth/fbToken`, 'post', accessToken)
 }

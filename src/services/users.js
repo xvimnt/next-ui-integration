@@ -7,3 +7,7 @@ export const getAllUsers = async () => {
 export const updateUser = async (user) => {
     return axiosFetch(`/users/${user.id}`, 'patch', user)
 }
+
+export const createUser = async (user) => {
+    return axiosFetch(`/users`, 'post', user)
+}
