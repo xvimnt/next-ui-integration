@@ -87,11 +87,11 @@ export default function Configuration() {
   useEffect(() => {
     const saveToken = async () => {
       // save the token in the database and in the local storage of the browser 
-      localStorage.setItem('accessToken', accessToken)
+      localStorage.setItem('accessToken', session?.accessToken)
       const facebook_token = {
         app_id: app_id,
         account_id: selectedAccount,
-        token: accessToken,
+        token: session?.accessToken,
         account_name: accounts.find(account => account.id === selectedAccount).name
       }
       await saveAccessToken(facebook_token)
