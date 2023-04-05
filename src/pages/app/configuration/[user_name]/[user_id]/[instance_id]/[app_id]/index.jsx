@@ -35,7 +35,6 @@ export default function Configuration() {
         instance_id: instance_id,
         configuration: {
           account_id: selectedAccount,
-          account_name: accounts.find(account => account.id === selectedAccount).name,
           audience_id: selectedAudience,
           app_id: app_id,
           diccionary: [
@@ -92,12 +91,11 @@ export default function Configuration() {
         app_id: app_id,
         account_id: selectedAccount,
         token: session?.accessToken,
-        account_name: accounts?.find(account => account.id === selectedAccount).name
       }
       await saveAccessToken(facebook_token)
     }
 
-    if (session?.accessToken && accounts) saveToken()
+    if (session?.accessToken && selectedAccount) saveToken()
   }, [session])
 
   return (
