@@ -92,12 +92,12 @@ export default function Configuration() {
         app_id: app_id,
         account_id: selectedAccount,
         token: session?.accessToken,
-        account_name: accounts.find(account => account.id === selectedAccount).name
+        account_name: accounts?.find(account => account.id === selectedAccount).name
       }
       await saveAccessToken(facebook_token)
     }
 
-    if (session?.accessToken) saveToken()
+    if (session?.accessToken && accounts) saveToken()
   }, [session])
 
   return (
