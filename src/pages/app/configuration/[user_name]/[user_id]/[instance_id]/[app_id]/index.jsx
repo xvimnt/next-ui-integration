@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router'
-import { getAdsAccounts } from "../../../../../../../services/facebook"
+import { getAdsAccountsWithToken } from "../../../../../../../services/facebook"
 import { useState, useEffect } from "react"
 import { AccountsSelect } from '../../../../../../../components/AccountsSelect'
 import React from 'react'
 import { AudiencesSelect } from '../../../../../../../components/AudienceSelect'
 import { createInstanceConfig, getInstanceConfig } from '../../../../../../../services/instance'
-import { createUser } from '../../../../../../../services/users'
+import { createUser, getUserByEloquaId } from '../../../../../../../services/users'
+import { getTokensByAppId } from '../../../../../../../services/auth'
 import { Toast } from '../../../../../../../components/Toast'
 import { useSession, signIn } from "next-auth/react"
 import { saveAccessToken } from "src/services/auth.js";
@@ -70,6 +71,31 @@ export default function Configuration() {
 
   useEffect(() => {
     const checkConfig = async () => {
+      // check if the user exists
+      if(!user_id) return
+      const user = await getUserByEloquaId(user_id)
+
+      if (!user) {
+        console.log('no user with that eloqua id')
+      } else {
+        // obtain the app_id from the user and get all the tokens asociated to the app_id
+        const tokens = await getTokensByAppId(user.app_id)
+        if(!tokens) return
+        // for each token get the ads accounts and save them in an array
+        const accountsRes = []
+        accountsRes.data = []
+        for (let i = 0; i < tokens.length; i++) {
+          const token = tokens[i]
+          const accounts = await getAdsAccountsWithToken(token.token)
+          if(!accounts) continue
+          accounts.data.forEach(account => {
+            accountsRes.data.push(account)
+          })
+        }
+        setAccounts(accountsRes)
+      }
+
+      // check if a config exists
       const res = await getInstanceConfig({ instance_id: instance_id, app_id: app_id })
       if (res) {
         setSelectedAccount(res.configuration.account_id)
@@ -77,11 +103,10 @@ export default function Configuration() {
       }
     }
     if (typeof window !== 'undefined') {
-      getAdsAccounts(setAccounts)
       // check if a config exists
       checkConfig()
     }
-  }, [instance_id, app_id])
+  }, [instance_id, app_id, user_id])
 
   useEffect(() => {
     const saveToken = async () => {

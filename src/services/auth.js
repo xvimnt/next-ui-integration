@@ -1,4 +1,9 @@
+import { axiosFetch } from "../utils/functions"
 import axios from "axios"
+
+export const getTokensByAppId = async (appId) => {
+    return axiosFetch(`auth/fbToken/appId/${appId}`, 'get')
+}
 
 export const signInWithEmailAndPassword = async (username, password) => {
     try {

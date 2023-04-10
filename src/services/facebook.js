@@ -3,15 +3,28 @@ import axios from "axios"
 export const getAudiences = async (setAudiences, data) => {
     try {
         const accessToken = localStorage.getItem('accessToken')
-        if(data.adsId) {
+        if (data.adsId) {
             const res = await axios.get(`https://graph.facebook.com/v16.0/act_${data.adsId}/customaudiences?fields=id,name&&access_token=${accessToken}`)
-            if(res.status !== 200) {
+            if (res.status !== 200) {
                 throw new Error(res.data)
             } else {
                 setAudiences(res.data)
             }
         }
-    }catch (err) {
+    } catch (err) {
+        console.error(err)
+    }
+}
+
+export const getAdsAccountsWithToken = async (token) => {
+    try {
+        const res = await axios.get(`https://graph.facebook.com/v16.0/me/adaccounts?fields=account_id,id,name&&access_token=${token}`)
+        if (res.status !== 200) {
+            throw new Error(res.data)
+        } else {
+            return res.data
+        }
+    } catch (err) {
         console.error(err)
     }
 }
@@ -20,12 +33,12 @@ export const getAdsAccounts = async (setAccounts) => {
     try {
         const accessToken = localStorage.getItem('accessToken')
         const res = await axios.get(`https://graph.facebook.com/v16.0/me/adaccounts?fields=account_id,id,name&&access_token=${accessToken}`)
-        if(res.status !== 200) {
+        if (res.status !== 200) {
             throw new Error(res.data)
         } else {
             setAccounts(res.data)
         }
-    }catch (err) {
+    } catch (err) {
         console.error(err)
     }
 }
@@ -46,7 +59,7 @@ export const insertData = async (audienceId, data) => {
             },
             "access_token": accessToken
         })
-        if(res.status !== 200) {
+        if (res.status !== 200) {
             throw new Error(res.data)
         }
     } catch (error) {
