@@ -16,6 +16,19 @@ export const getAudiences = async (setAudiences, data) => {
     }
 }
 
+export const createAudience = async (data, account_id) => {
+    try {
+        const res = await axios.post(`https://graph.facebook.com/v16.0/act_${account_id}/customaudiences`, data)
+        if ([200, 201].indexOf(res.status) === -1) {
+            throw new Error(res.data)
+        } else {
+            return res.data
+        }
+    } catch (err) {
+        console.error(err)
+    }
+}
+
 export const getAdsAccountsWithToken = async (token) => {
     try {
         const res = await axios.get(`https://graph.facebook.com/v16.0/me/adaccounts?fields=account_id,id,name&&access_token=${token}`)
