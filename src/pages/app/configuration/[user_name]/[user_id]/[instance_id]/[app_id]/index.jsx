@@ -84,9 +84,7 @@ export default function Configuration() {
         }
       }
       const res = await createInstanceConfig(newConf)
-      // create new user
-      const userRes = await createUser({ username: user_name, eloqua_id: user_id, app_id: app_id })
-      if (res?.status === 201 && userRes) {
+      if (res?.status === 201) {
         setShowToast(true)
         setTimeout(() => {
           setShowToast(false)
@@ -100,34 +98,72 @@ export default function Configuration() {
     }
   }
 
-  const getAccountsWithToken = async () => {
-    // check if the user exists
-    if (!user_id) return
-    const user = await getUserByEloquaId(user_id)
+  const setAccountsWithTokens = async (tokens) => {
+    // for each token get the ads accounts and save them in an array
+    const accountsRes = []
+    accountsRes.data = []
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i]
+      const accounts = await getAdsAccountsWithToken(token.token)
+      if (!accounts) continue
+      accounts.data.forEach(account => {
+        accountsRes.data.push(account)
+      })
+    }
+    setAccounts(accountsRes)
+  }
 
+  const getAccountsWithToken = async () => {
+    // Check if user ID is present
+    if (!user_id) {
+      return;
+    }
+  
+    // Retrieve the user associated with the user ID
+    const user = await getUserByEloquaId(user_id);
+  
+    // If no user is found, create a new one
     if (!user) {
-      console.log('no user with that eloqua id')
-    } else {
-      // obtain the app_id from the user and get all the tokens asociated to the app_id
-      const tokens = await getTokensByAppId(user.app_id)
-      if (!tokens) return
-      // for each token get the ads accounts and save them in an array
-      const accountsRes = []
-      accountsRes.data = []
-      for (let i = 0; i < tokens.length; i++) {
-        const token = tokens[i]
-        const accounts = await getAdsAccountsWithToken(token.token)
-        if (!accounts) continue
-        accounts.data.forEach(account => {
-          accountsRes.data.push(account)
-        })
+      // Create a new user with the given username, Eloqua ID, and app ID
+      const userRes = await createUser({ 
+        username: user_name, 
+        eloqua_id: user_id, 
+        app_id: app_id 
+      });
+  
+      // If there was an error creating the user, stop here
+      if (!userRes) {
+        return;
       }
-      setAccounts(accountsRes)
+  
+      // Retrieve the tokens associated with the newly created user's app ID
+      const tokens = await getTokensByAppId(app_id);
+  
+      // If there was an error retrieving the tokens, stop here
+      if (!tokens) {
+        return;
+      }
+  
+      // Set the accounts with the retrieved tokens
+      setAccountsWithTokens(tokens);
+    } else {
+      // Retrieve the tokens associated with the existing user's app ID
+      const tokens = await getTokensByAppId(app_id);
+  
+      // If there was an error retrieving the tokens, stop here
+      if (!tokens) {
+        return;
+      }
+  
+      // Set the accounts with the retrieved tokens
+      setAccountsWithTokens(tokens);
     }
   }
+  
 
   useEffect(() => {
     const checkConfig = async () => {
+      if(!instance_id || !app_id) return
       await getAccountsWithToken()
 
       // check if a config exists
