@@ -17,7 +17,6 @@ export const Audiences = ({ selectedAccount }) => {
     const [selectedAudience, setSelectedAudience] = useState()
 
     const searchRef = useRef(null)
-    const nameRef = useRef(null)
     const phoneRef = useRef(null)
 
     useEffect(() => {
@@ -40,13 +39,15 @@ export const Audiences = ({ selectedAccount }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const nameValue = nameRef.current?.value
         const phoneValue = phoneRef.current?.value
-        if (nameValue && phoneValue) {
+        if (phoneValue) {
             const data = {
                 content: [encryptStringToSHA256(phoneValue)]
             }
-            await insertData(selectedAudience.id, data)
+            // TODO: get accessToken from fbToken table associated with the user
+            const accessToken = localStorage.getItem('accessToken')
+
+            await insertData(selectedAudience.id, data, accessToken)
             setShowModal(false)
         }
     }
@@ -82,12 +83,6 @@ export const Audiences = ({ selectedAccount }) => {
                 <h1 className='font-bold text-2xl p-1 m-2 text-center'>Agregar usuarios</h1>
                 <h1 className='font-light p-1 m-2 text-center'>{selectedAudience?.name}</h1>
                 <form className="w-96 mx-auto p-4">
-                    <div className="mb-4">
-                        <label className="block text-gray-700 font-bold mb-2" htmlFor="name">
-                            Usuario
-                        </label>
-                        <input ref={nameRef} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="John Doe" />
-                    </div>
                     <div className="mb-4">
                         <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
                             Telefono

@@ -56,9 +56,8 @@ export const getAdsAccounts = async (setAccounts) => {
     }
 }
 
-export const insertData = async (audienceId, data) => {
+export const insertData = async (audienceId, data, accessToken) => {
     try {
-        const accessToken = localStorage.getItem('accessToken')
         const res = await axios.post(`https://graph.facebook.com/v16.0/${audienceId}/users`, {
             "payload": {
                 "schema": "PHONE_SHA256",

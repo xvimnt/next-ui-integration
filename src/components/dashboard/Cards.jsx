@@ -87,7 +87,7 @@ export const Cards = () => {
                     </svg>
                 }
                 title="Audiencias"
-                description="Lista audiencias y permite agregar correos a ellas."
+                description="Lista audiencias y permite agregar numeros de telefono individuales a ellas."
                 action={() => setShowAudiencesModal(true)}
             />
             <>
