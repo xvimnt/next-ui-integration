@@ -16,7 +16,7 @@ export const OrgSelect = ({ selectedOption, handleSelectChange}) => {
             {
                 orgs &&
                 orgs.map(org => {
-                    return <option key={org.id} value={org.id}>{org.name}</option>
+                    return <option key={org.id} value={org.app_id}>{org.name}</option>
                 })
             }
         </select>
