@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Card } from './Card'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import { AudiencesModal } from './AudiencesModal'
 import { UsersModal } from './UsersModal'
 import { ConfigurationModal } from './ConfigurationModal'
