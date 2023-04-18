@@ -8,7 +8,7 @@ export default function Configuration() {
   const { instance_id, app_id, user_name, user_id } = router.query
   
   return (
-    <section className="text-gray-600 body-font bg-white">
+    <section className="text-gray-600 body-font bg-white h-[100vh]">
       <div className="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
         <Hero />        
         <div className="text-center lg:w-2/3 w-full">

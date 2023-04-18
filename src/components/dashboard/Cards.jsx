@@ -33,7 +33,7 @@ export const Cards = () => {
                 action={() => signIn()}
             />
             {/* Asociar usuarios con organizaciones */}
-            <Card
+            {/* <Card
                 svg={
                     <svg
                         fill="none"
@@ -51,7 +51,7 @@ export const Cards = () => {
                 title="Usuarios"
                 description="Asocia usuarios con organizaciones existentes, para que los mismos tengan acceso a los tokens de facebook de la organizacion."
                 action={() => setShowUsersModal(true)}
-            />
+            /> */}
             {/* Configuracion */}
             <Card
                 svg={
@@ -72,7 +72,7 @@ export const Cards = () => {
                 action={() => setShowConfigurationModal(true)}
             />
             {/* Audiencias */}
-            <Card
+            {/* <Card
                 svg={
                     <svg
                         fill="none"
@@ -89,7 +89,7 @@ export const Cards = () => {
                 title="Audiencias"
                 description="Lista audiencias y permite agregar numeros de telefono individuales a ellas."
                 action={() => setShowAudiencesModal(true)}
-            />
+            /> */}
             <>
                 <AudiencesModal setShowModal={setShowAudiencesModal} showModal={showAudiencesModal} />
                 <UsersModal setShowModal={setShowUsersModal} showModal={showUsersModal} />
