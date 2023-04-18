@@ -1,18 +1,19 @@
-import { getAdsAccounts } from "../services/facebook"
-import { useState, useEffect } from "react"
 import { AccountsSelect } from './AccountsSelect'
+
+// store
+import { useStore } from '../app/store'
+
 export const Accounts = ({ selectedOption, setSelectedOption }) => {
 
-    const [accounts, setAccounts] = useState([])
+    // state
+    const [accounts] = useStore(
+        (state) => [state.accounts]
+    )
 
     function handleSelectChange(event) {
         const selected = accounts.data.filter(acc => acc.account_id === event.target.value)[0]
         setSelectedOption(selected);
     }
-
-    useEffect(() => {
-        getAdsAccounts(setAccounts)
-    }, [])
 
     return (
         <>

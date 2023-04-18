@@ -1,29 +1,92 @@
 import { useEffect } from "react"
 import React from 'react'
 import { useRouter } from 'next/router'
-import { saveAccessToken } from "src/services/auth.js";
-
 import { useSession } from "next-auth/react"
+import { useStore } from "src/app/store"
+
+// services
+import { saveAccessToken } from "src/services/auth.js";
+import { getAdsAccountsWithToken } from "src/services/facebook.js";
+import { getUserByEloquaId } from "src/services/users.js";
+import { createUser } from "src/services/users.js";
+import { getTokensByAppId } from "src/services/auth.js";
+
+// components
 import { Cards } from "../../../../../../components/dashboard/Cards"
 
 export default function Configuration() {
   const router = useRouter()
-  const { app_id} = router.query
+  const { app_id, user_id, user_name } = router.query
   const { data: session } = useSession()
+
+  // state
+  const [updateAccounts] = useStore(
+    (state) => [state.updateAccounts]
+  )
 
   useEffect(() => {
     const saveToken = async () => {
       // save the token in the database and in the local storage of the browser 
-      localStorage.setItem('accessToken', session?.accessToken)
-      const facebook_token = {
-        app_id: app_id,
-        token: session?.accessToken,
+      if(session) {
+        localStorage.setItem('accessToken', session.accessToken)
+        const facebook_token = {
+          app_id: app_id,
+          token: session.accessToken,
+          eloqua_id: user_id
+        }
+        await saveAccessToken(facebook_token)
       }
-      await saveAccessToken(facebook_token)
     }
 
     if (session?.accessToken) saveToken()
   }, [session])
+
+
+  const setAccountsWithTokens = async (tokens) => {
+    // for each token get the ads accounts and save them in an array
+    const accountsRes = []
+    accountsRes.data = []
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i]
+      const accounts = await getAdsAccountsWithToken(token.token)
+      if (!accounts) continue
+      accounts.data.forEach(account => {
+        accountsRes.data.push(account)
+      })
+    }
+    updateAccounts(accountsRes)
+  }
+
+  const getAccountsWithToken = async () => {
+    // Check if user ID is present
+    if (!user_id) {
+      return;
+    }
+
+    // Retrieve the user associated with the user ID, or create a new one if no user is found
+    const user = await getUserByEloquaId(user_id) ||
+      await createUser({ username: user_name, eloqua_id: user_id, app_id: app_id });
+
+    // If there was an error retrieving or creating the user, stop here
+    if (!user) {
+      return;
+    }
+
+    // Retrieve the tokens associated with the user's app ID
+    const tokens = await getTokensByAppId(app_id);
+
+    // If there was an error retrieving the tokens, stop here
+    if (!tokens) {
+      return;
+    }
+
+    // Set the accounts with the retrieved tokens
+    setAccountsWithTokens(tokens);
+  }
+
+  useEffect(() => {
+    getAccountsWithToken()
+  }, [user_id])
 
   return (
     <>

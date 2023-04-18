@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import { Modal } from '../Modal'
+
+// store
+import { useStore } from 'src/app/store'
+
+// Components
 import { AccountsSelect } from 'src/components/AccountsSelect'
 import { Toast } from 'src/components/Toast'
 import { AudiencesSelect } from 'src/components/AudienceSelect'
-import { createAudience } from 'src/services/facebook'
-import { createInstanceConfig } from 'src/services/instance'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
 
 // Services
-import { getUserByEloquaId } from 'src/services/users'
-import { getTokensByAppId } from 'src/services/auth'
-import { getAdsAccountsWithToken } from 'src/services/facebook'
+import { createAudience } from 'src/services/facebook'
+import { createInstanceConfig } from 'src/services/instance'
 import { getInstanceConfig } from 'src/services/instance'
 
 
 export const ConfigurationModal = ({ showModal, setShowModal }) => {
-    const [accounts, setAccounts] = useState([])
     const [selectedAccount, setSelectedAccount] = useState("")
     const [selectedAudience, setSelectedAudience] = useState("")
     const [showToast, setShowToast] = useState(false)
@@ -25,7 +26,12 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
 
     const { data: session } = useSession()
     const router = useRouter()
-    const { instance_id, app_id, user_name, user_id } = router.query
+    const { instance_id, app_id } = router.query
+    
+  // state
+  const [token, accounts] = useStore(
+    (state) => [state.token, state.accounts]
+  )
 
     // Audience refs
     const audienceNameRef = React.createRef()
@@ -99,53 +105,10 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
             }
         }
     }
-
-    const setAccountsWithTokens = async (tokens) => {
-        // for each token get the ads accounts and save them in an array
-        const accountsRes = []
-        accountsRes.data = []
-        for (let i = 0; i < tokens.length; i++) {
-            const token = tokens[i]
-            const accounts = await getAdsAccountsWithToken(token.token)
-            if (!accounts) continue
-            accounts.data.forEach(account => {
-                accountsRes.data.push(account)
-            })
-        }
-        setAccounts(accountsRes)
-    }
-
-    const getAccountsWithToken = async () => {
-        // Check if user ID is present
-        if (!user_id) {
-            return;
-        }
-
-        // Retrieve the user associated with the user ID, or create a new one if no user is found
-        const user = await getUserByEloquaId(user_id) ||
-            await createUser({ username: user_name, eloqua_id: user_id, app_id: app_id });
-
-        // If there was an error retrieving or creating the user, stop here
-        if (!user) {
-            return;
-        }
-
-        // Retrieve the tokens associated with the user's app ID
-        const tokens = await getTokensByAppId(user.app_id);
-
-        // If there was an error retrieving the tokens, stop here
-        if (!tokens) {
-            return;
-        }
-
-        // Set the accounts with the retrieved tokens
-        setAccountsWithTokens(tokens);
-    }
-
+    
     useEffect(() => {
         const checkConfig = async () => {
             if (!instance_id || !app_id) return
-            await getAccountsWithToken()
 
             // check if a config exists
             const res = await getInstanceConfig({ instance_id: instance_id, app_id: app_id })
