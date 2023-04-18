@@ -1,8 +1,7 @@
 import axios from "axios"
 
-export const getAudiences = async (setAudiences, data) => {
+export const getAudiences = async (setAudiences, data, accessToken) => {
     try {
-        const accessToken = localStorage.getItem('accessToken')
         if (data.adsId) {
             const res = await axios.get(`https://graph.facebook.com/v16.0/act_${data.adsId}/customaudiences?fields=id,name&&access_token=${accessToken}`)
             if (res.status !== 200) {
@@ -16,9 +15,9 @@ export const getAudiences = async (setAudiences, data) => {
     }
 }
 
-export const createAudience = async (data, account_id) => {
+export const createAudience = async (data, account) => {
     try {
-        const res = await axios.post(`https://graph.facebook.com/v16.0/act_${account_id}/customaudiences`, data)
+        const res = await axios.post(`https://graph.facebook.com/v16.0/act_${account.id}/customaudiences`, data)
         if ([200, 201].indexOf(res.status) === -1) {
             throw new Error(res.data)
         } else {

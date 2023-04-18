@@ -52,7 +52,11 @@ export default function Configuration() {
       const accounts = await getAdsAccountsWithToken(token.token)
       if (!accounts) continue
       accounts.data.forEach(account => {
-        accountsRes.data.push(account)
+        accountsRes.push({
+          id: account.account_id,
+          name: account.name,
+          token: token.token
+        })
       })
     }
     updateAccounts(accountsRes)

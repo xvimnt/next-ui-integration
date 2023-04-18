@@ -38,7 +38,8 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
     const audienceDescriptionRef = React.createRef()
 
     function handleSelectAccount(event) {
-        setSelectedAccount(event.target.value);
+        const account = accounts.find(account => account.id === event.target.value)
+        setSelectedAccount(account);
     }
     function handleSelectAudience(event) {
         setSelectedAudience(event.target.value);
@@ -51,7 +52,7 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
             description: audienceDescriptionRef.current.value,
             subtype: 'CUSTOM',
             customer_file_source: 'USER_PROVIDED_ONLY',
-            access_token: session?.accessToken || localStorage.getItem('accessToken')
+            access_token: selectedAccount.token
         }
         const res = await createAudience(newAudience, selectedAccount)
         if (res) {
@@ -74,7 +75,7 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
                 app_id: app_id,
                 instance_id: instance_id,
                 configuration: {
-                    account_id: selectedAccount,
+                    account_id: selectedAccount.id,
                     audience_id: selectedAudience,
                     app_id: app_id,
                     diccionary: [
@@ -113,7 +114,8 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
             // check if a config exists
             const res = await getInstanceConfig({ instance_id: instance_id, app_id: app_id })
             if (res) {
-                setSelectedAccount(res.configuration.account_id)
+                const account = accounts.find(account => account.id === res.configuration.account_id)
+                setSelectedAccount(account)
                 setSelectedAudience(res.configuration.audience_id)
             }
         }
@@ -154,7 +156,7 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
                                     </form>
                                     <hr className="my-3" />
                                     <div className='flex flex-col gap-2'>
-                                        <AudiencesSelect account_id={selectedAccount} selectedOption={selectedAudience} handleSelectChange={handleSelectAudience} />
+                                        <AudiencesSelect account={selectedAccount} selectedOption={selectedAudience} handleSelectChange={handleSelectAudience} />
                                         <button onClick={handleSubmit} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline" type="button">
                                             Guardar Configuracion
                                         </button>
