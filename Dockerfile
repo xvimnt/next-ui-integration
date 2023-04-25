@@ -7,6 +7,7 @@ WORKDIR /app
 
 # Copy package.json and yarn.lock to the working directory
 COPY package.json ./
+COPY pnpm-lock.yaml ./
 # Install dependencies
 #RUN npm install --production --frozen-lockfile
 RUN pnpm install --production --frozen-lockfile
