@@ -1,6 +1,6 @@
 
 # Use an official Node.js runtime as a parent image
-FROM node:16-alpine3.14
+FROM pnpm/alpine-node:16
 
 # Set the working directory to /app
 WORKDIR /app
@@ -9,7 +9,8 @@ WORKDIR /app
 COPY package.json ./
 
 # Install dependencies
-RUN npm install --production --frozen-lockfile
+#RUN npm install --production --frozen-lockfile
+RUN pnpm install --production --frozen-lockfile
 
 # Copy the rest of the application code to the working directory
 COPY . .
@@ -24,4 +25,4 @@ ENV NODE_ENV=production
 EXPOSE 5050
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]
