@@ -16,6 +16,10 @@ import { createAudience } from 'src/services/facebook'
 import { createInstanceConfig } from 'src/services/instance'
 import { getInstanceConfig } from 'src/services/instance'
 
+// store
+import { useAppSelector } from 'src/app/hooks'
+import { selectAccounts } from 'src/app/slices/accountsSlice'
+
 
 export const ConfigurationModal = ({ showModal, setShowModal }) => {
     const [selectedAccount, setSelectedAccount] = useState("")
@@ -27,9 +31,7 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
     const { instance_id, app_id } = router.query
 
     // state
-    const [accounts] = useStore(
-        (state) => [state.token, state.accounts]
-    )
+    const accounts = useAppSelector(selectAccounts).data;
 
     // Audience refs
     const audienceNameRef = React.createRef()
@@ -108,11 +110,9 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
     useEffect(() => {
         const checkConfig = async () => {
             if (!instance_id || !app_id || !accounts) return
-
             // check if a config exists
             const res = await getInstanceConfig({ instance_id: instance_id, app_id: app_id })
             if (!res) return
-
             const account = accounts.find(account => account.id === res.configuration.account_id)
             if(!account) return
             setSelectedAccount(account)

@@ -2,7 +2,6 @@ import { useEffect } from "react"
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from "next-auth/react"
-import { useStore } from "src/app/store"
 
 // services
 import { saveAccessToken } from "src/services/auth.js";
@@ -15,15 +14,18 @@ import { getTokensByAppId } from "src/services/auth.js";
 import { Cards } from "../../../../../../components/dashboard/Cards"
 import { Hero } from 'src/components/dashboard/Hero'
 
+// store
+import { useAppDispatch } from "src/app/hooks.js"
+import { setAccounts } from "src/app/slices/accountsSlice.js"
+
+
 export default function Configuration() {
   const router = useRouter()
   const { app_id, user_id, user_name } = router.query
   const { data: session } = useSession()
 
   // state
-  const [updateAccounts] = useStore(
-    (state) => [state.updateAccounts]
-  )
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     const saveToken = async () => {
@@ -38,15 +40,12 @@ export default function Configuration() {
         await saveAccessToken(facebook_token)
       }
     }
-
     if (session?.accessToken) saveToken()
   }, [session])
-
 
   const setAccountsWithTokens = async (tokens) => {
     // for each token get the ads accounts and save them in an array
     const accountsRes = []
-    accountsRes.data = []
     for (let i = 0; i < tokens.length; i++) {
       const token = tokens[i]
       const accounts = await getAdsAccountsWithToken(token.token)
@@ -59,7 +58,7 @@ export default function Configuration() {
         })
       })
     }
-    updateAccounts(accountsRes)
+    dispatch(setAccounts(accountsRes))
   }
 
   const getAccountsWithToken = async () => {
