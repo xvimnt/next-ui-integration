@@ -23,15 +23,13 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
     const [showToast, setShowToast] = useState(false)
     const [showErrorToast, setShowErrorToast] = useState(false)
 
-
-    const { data: session } = useSession()
     const router = useRouter()
     const { instance_id, app_id } = router.query
-    
-  // state
-  const [token, accounts] = useStore(
-    (state) => [state.token, state.accounts]
-  )
+
+    // state
+    const [accounts] = useStore(
+        (state) => [state.token, state.accounts]
+    )
 
     // Audience refs
     const audienceNameRef = React.createRef()
@@ -106,18 +104,19 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
             }
         }
     }
-    
+
     useEffect(() => {
         const checkConfig = async () => {
-            if (!instance_id || !app_id) return
+            if (!instance_id || !app_id || !accounts) return
 
             // check if a config exists
             const res = await getInstanceConfig({ instance_id: instance_id, app_id: app_id })
-            if (res) {
-                const account = accounts.find(account => account.id === res.configuration.account_id)
-                setSelectedAccount(account)
-                setSelectedAudience(res.configuration.audience_id)
-            }
+            if (!res) return
+
+            const account = accounts.find(account => account.id === res.configuration.account_id)
+            if(!account) return
+            setSelectedAccount(account)
+            setSelectedAudience(res.configuration.audience_id)
         }
         if (typeof window !== 'undefined') {
             // check if a config exists
