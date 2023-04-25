@@ -1,16 +1,14 @@
-
 # Use an official Node.js runtime as a parent image
 FROM node:16-alpine3.14
-RUN npm i -g pnpm
+
 # Set the working directory to /app
 WORKDIR /app
 
 # Copy package.json and yarn.lock to the working directory
 COPY package.json ./
-COPY pnpm-lock.yaml ./
+
 # Install dependencies
-#RUN npm install --production --frozen-lockfile
-RUN pnpm install --production --frozen-lockfile
+RUN npm install --production --frozen-lockfile
 
 # Copy the rest of the application code to the working directory
 COPY . .
