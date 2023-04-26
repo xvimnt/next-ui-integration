@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { Modal } from '../Modal'
-
-// store
-import { useStore } from 'src/app/store'
 
 // Components
 import { AccountsSelect } from 'src/components/AccountsSelect'
@@ -107,6 +103,7 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
         }
     }
 
+    // Load config if exists
     useEffect(() => {
         const checkConfig = async () => {
             if (!instance_id || !app_id || !accounts) return

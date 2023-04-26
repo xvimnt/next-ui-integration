@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import {getAudiences} from '../services/facebook'
 
 export const AudiencesSelect = ({ selectedOption, handleSelectChange, account}) => {
-    if(!account || !selectedOption || !handleSelectChange) return 
-    
     const [audiences, setAudiences] = useState([])
     useEffect(() => {
         const asyncAudiences = async () => {

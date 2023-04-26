@@ -30,7 +30,7 @@ export default function Configuration() {
   useEffect(() => {
     const saveToken = async () => {
       // save the token in the database and in the local storage of the browser 
-      if(session) {
+      if (session) {
         localStorage.setItem('accessToken', session.accessToken)
         const facebook_token = {
           app_id: app_id,
@@ -44,19 +44,25 @@ export default function Configuration() {
   }, [session])
 
   const setAccountsWithTokens = async (tokens) => {
-    // for each token get the ads accounts and save them in an array
-    const accountsRes = []
-    for (let i = 0; i < tokens.length; i++) {
-      const token = tokens[i]
-      const accounts = await getAdsAccountsWithToken(token.token)
-      if (!accounts) continue
-      accounts.data.forEach(account => {
-        accountsRes.push({
-          id: account.account_id,
-          name: account.name,
-          token: token.token
-        })
-      })
+    // Create an empty array to store the ads accounts
+    const accountsRes = [];
+
+    // Iterate through each token in the tokens array
+    for (const token of tokens) {
+      // Call the getAdsAccountsWithToken function with the token and wait for the response
+      const accounts = await getAdsAccountsWithToken(token.token);
+
+      // Check if the accounts array exists and is not empty
+      if (accounts) {
+        // Iterate through each account in the accounts array and add it to the accountsRes array
+        accounts.data.forEach(account => {
+          accountsRes.push({
+            id: account.account_id,
+            name: account.name,
+            token: token.token,
+          });
+        });
+      }
     }
     dispatch(setAccounts(accountsRes))
   }
