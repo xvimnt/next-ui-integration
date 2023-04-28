@@ -1,14 +1,14 @@
 import { AccountsSelect } from './AccountsSelect'
 
 // store
-import { useStore } from '../app/store'
+import { useAppSelector } from 'src/app/hooks'
+import { selectAccounts } from 'src/app/slices/accountsSlice'
+
 
 export const Accounts = ({ selectedOption, setSelectedOption }) => {
 
     // state
-    const [accounts] = useStore(
-        (state) => [state.accounts]
-    )
+    const accounts = useAppSelector(selectAccounts).data;
 
     function handleSelectChange(event) {
         const selected = accounts.filter(acc => acc.id === event.target.value)[0]

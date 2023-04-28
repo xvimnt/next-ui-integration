@@ -4,12 +4,14 @@ import { signIn } from "next-auth/react"
 import { AudiencesModal } from './AudiencesModal'
 import { UsersModal } from './UsersModal'
 import { ConfigurationModal } from './ConfigurationModal'
+import { ShareModal } from './ShareModal'
 
 export const Cards = () => {
     // modal's states
     const [showAudiencesModal, setShowAudiencesModal] = useState(false)
     const [showUsersModal, setShowUsersModal] = useState(false)
     const [showConfigurationModal, setShowConfigurationModal] = useState(false)
+    const [showShareModal, setShowShareModal] = useState(false)
     
     return (
         <div className="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
@@ -31,6 +33,21 @@ export const Cards = () => {
                 title="Asociar Cuenta"
                 description="Asocia tu cuenta de facebook para enlazar tu token."
                 action={() => signIn()}
+            />
+            {/* Compartir cuentas */}
+            <Card
+                svg={
+                    <svg fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    className="w-6 h-6"
+                    viewBox="0 0 24 24"><path d="M7 16.462l1.526-.723c1.792-.81 2.851-.344 4.349.232 1.716.661 2.365.883 3.077 1.164 1.278.506.688 2.177-.592 1.838-.778-.206-2.812-.795-3.38-.931-.64-.154-.93.602-.323.818 1.106.393 2.663.79 3.494 1.007.831.218 1.295-.145 1.881-.611.906-.72 2.968-2.909 2.968-2.909.842-.799 1.991-.135 1.991.72 0 .23-.083.474-.276.707-2.328 2.793-3.06 3.642-4.568 5.226-.623.655-1.342.974-2.204.974-.442 0-.922-.084-1.443-.25-1.825-.581-4.172-1.313-6.5-1.6v-5.662zm-1 6.538h-4v-8h4v8zm15-11.497l-6.5 3.468v-7.215l6.5-3.345v7.092zm-7.5-3.771v7.216l-6.458-3.445v-7.133l6.458 3.362zm-3.408-5.589l6.526 3.398-2.596 1.336-6.451-3.359 2.521-1.375zm10.381 1.415l-2.766 1.423-6.558-3.415 2.872-1.566 6.452 3.558z"/></svg>
+                }
+                title="Compartir Cuentas"
+                description="Comparte tus cuentas asociadas con otros usuarios de tu organizacion."
+                action={() => setShowShareModal(true)}
             />
             {/* Asociar usuarios con organizaciones */}
             {/* <Card
@@ -91,6 +108,7 @@ export const Cards = () => {
                 action={() => setShowAudiencesModal(true)}
             /> */}
             <>
+                <ShareModal setShowModal={setShowShareModal} showModal={showShareModal} />
                 <AudiencesModal setShowModal={setShowAudiencesModal} showModal={showAudiencesModal} />
                 <UsersModal setShowModal={setShowUsersModal} showModal={showUsersModal} />
                 <ConfigurationModal setShowModal={setShowConfigurationModal} showModal={showConfigurationModal} />
