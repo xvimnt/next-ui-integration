@@ -111,15 +111,14 @@ export const ConfigurationModal = ({ showModal, setShowModal }) => {
             const res = await getInstanceConfig({ instance_id: instance_id, app_id: app_id })
             if (!res) return
             const account = accounts.find(account => account.id === res.configuration.account_id)
-            if(!account) return
+            if (!account) return
             setSelectedAccount(account)
             setSelectedAudience(res.configuration.audience_id)
         }
-        if (typeof window !== 'undefined') {
-            // check if a config exists
-            checkConfig()
-        }
-    }, [instance_id, app_id])
+        // check if a config exists
+        if (!instance_id || !app_id || !accounts) return
+        checkConfig()
+    }, [instance_id, app_id, accounts])
 
     return (
         <Modal showModal={showModal} setShowModal={setShowModal}>
